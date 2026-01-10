@@ -1,0 +1,690 @@
+WIND TURBINE COMPREHENSIVE MAINTENANCE SCHEDULE
+================================================
+
+INTRODUCTION
+============
+This document provides a complete maintenance schedule for wind turbines, from daily monitoring to major overhauls. Following this schedule maximizes availability, extends component life, and prevents costly failures.
+
+MAINTENANCE PHILOSOPHY
+======================
+
+Three-Tier Approach:
+
+Tier 1: Condition Monitoring (Continuous)
+- Automated SCADA monitoring
+- Remote diagnostics
+- Trend analysis
+- Early warning detection
+
+Tier 2: Preventive Maintenance (Scheduled)
+- Time-based interventions
+- Inspections
+- Replacements
+- Adjustments
+
+Tier 3: Corrective Maintenance (As Needed)
+- Repairs
+- Component replacements
+- Emergency interventions
+- Upgrades
+
+DAILY MAINTENANCE (AUTOMATED)
+==============================
+
+Performed by: SCADA System (automatic)
+Duration: Continuous
+Cost: Included in monitoring system
+
+Monitored Parameters:
+
+1. Power Performance:
+   - Power output vs. wind speed
+   - Capacity factor
+   - Availability
+   - Energy production
+
+2. Temperatures:
+   - Gearbox oil: <65°C normal
+   - Generator bearings: <70°C normal
+   - Generator windings: <110°C normal
+   - Ambient temperature
+
+3. Vibration Levels:
+   - Main bearing
+   - Gearbox
+   - Generator
+   - Alarm if >3.5 mm/s
+
+4. Oil Condition:
+   - Pressure: 1.5-2.5 bar
+   - Temperature: 40-65°C
+   - Level: Within normal range
+
+5. System Status:
+   - No active alarms
+   - All safety systems operational
+   - Communication links active
+   - No error codes
+
+Automated Actions:
+- Log all parameters
+- Send alerts for anomalies
+- Generate daily reports
+- Track availability
+
+WEEKLY MAINTENANCE
+==================
+
+Performed by: Local technician or remote monitoring
+Duration: 1-2 hours per site visit
+Frequency: Once per week
+Cost: $200-$400 per visit
+
+Tasks:
+
+Visual Inspection (Ground Level):
+☐ Check for oil leaks (nacelle, tower base)
+☐ Inspect tower for damage or cracks
+☐ Check tower door security
+☐ Verify aviation lights functioning
+☐ Check for unusual sounds
+☐ Verify turbine operating normally
+
+Oil Level Checks:
+☐ Gearbox oil level (sight glass)
+☐ Hydraulic system level
+☐ No visible contamination
+
+Basic Measurements:
+☐ Oil temperature reading
+☐ Check pressure gauges
+☐ Verify meters reading correctly
+
+SCADA Review:
+☐ Check for alarm history
+☐ Review production data
+☐ Identify trends or anomalies
+☐ Compare to fleet average
+
+Documentation:
+☐ Log book entries
+☐ Photo documentation of any concerns
+☐ Update work orders
+
+MONTHLY MAINTENANCE
+===================
+
+Performed by: Service technician
+Duration: 4-6 hours
+Frequency: Once per month
+Cost: $800-$1,500
+
+External Inspection:
+☐ Blade visual inspection (binoculars/camera)
+☐ Check for blade damage, cracks, erosion
+☐ Tower inspection for damage
+☐ Foundation inspection
+☐ Lightning protection system check
+☐ Obstruction lights functional
+
+Nacelle Access and Inspection:
+☐ Check for oil leaks (detailed)
+☐ Inspect all hoses and connections
+☐ Check hydraulic system for leaks
+☐ Inspect pitch system components
+☐ Check yaw system condition
+☐ Verify cooling fans operating
+☐ Check for unusual wear or damage
+
+Lubrication:
+☐ Top up oil levels if needed
+☐ Grease yaw bearing (if manual system)
+☐ Inspect automatic lubrication system
+☐ Check grease levels in reservoirs
+
+Electrical:
+☐ Check slip rings/brushes (if applicable)
+☐ Inspect electrical connections
+☐ Check for signs of overheating
+☐ Verify all sensors functioning
+
+Cleaning:
+☐ Clean nacelle (remove dust, debris)
+☐ Clean cooling air filters
+☐ Clean sensors (anemometer, vane)
+
+Testing:
+☐ Test emergency stop function
+☐ Verify pitch backup system
+☐ Test fire detection/suppression
+☐ Check communication systems
+
+Documentation:
+☐ Update service records
+☐ Log oil consumption
+☐ Report any findings
+☐ Update spare parts inventory
+
+QUARTERLY MAINTENANCE (EVERY 3 MONTHS)
+=======================================
+
+Performed by: Service team (2 technicians)
+Duration: 8-12 hours
+Frequency: Four times per year
+Cost: $2,000-$4,000
+
+In addition to monthly tasks:
+
+Detailed Inspections:
+☐ Gearbox inspection ports (endoscope)
+☐ Generator visual inspection
+☐ Main bearing inspection (if accessible)
+☐ Brake system inspection
+☐ Pitch system detailed check
+☐ Yaw system detailed check
+
+Vibration Analysis:
+☐ Portable vibration measurements
+☐ Multiple points (bearing, gearbox, generator)
+☐ Spectrum analysis
+☐ Compare to baseline
+☐ Trend analysis
+
+Electrical Testing:
+☐ Insulation resistance (megger test)
+☐ Slip ring/brush inspection and cleaning
+☐ Cable connections torque check
+☐ Ground resistance test
+
+Hydraulic System:
+☐ Pressure test
+☐ Leak test under pressure
+☐ Accumulator pre-charge check
+☐ Filter differential pressure check
+☐ Fluid level and condition check
+
+Pitch System:
+☐ Pitch bearing grease (if manual)
+☐ Pitch motor inspection
+☐ Pitch angle calibration check
+☐ Backup system test
+☐ Battery condition (electric pitch)
+
+Yaw System:
+☐ Yaw motor inspection
+☐ Yaw brake inspection
+☐ Yaw bearing lubrication check
+☐ Cable twist status
+☐ Alignment check
+
+Torque Checks:
+☐ Critical fasteners torque verification
+☐ Hub bolts
+☐ Nacelle mounting bolts
+☐ Pitch system bolts
+
+Cooling Systems:
+☐ Clean all heat exchangers
+☐ Check coolant levels
+☐ Test fans operation
+☐ Check for leaks
+
+Safety Systems:
+☐ Test all emergency stops
+☐ Fire detection system test
+☐ Lightning protection continuity test
+☐ Access equipment inspection
+
+SEMI-ANNUAL MAINTENANCE (EVERY 6 MONTHS)
+=========================================
+
+Performed by: Service team + specialist
+Duration: 16-24 hours (may span 2-3 days)
+Frequency: Twice per year
+Cost: $4,000-$8,000
+
+All quarterly tasks plus:
+
+Oil Analysis:
+☐ Gearbox oil sample (send to lab)
+☐ Hydraulic oil sample
+☐ Analyze for:
+  - Viscosity
+  - Water content
+  - Metal particles
+  - Acid number
+  - Particle count
+☐ Review results and recommend actions
+
+Advanced Vibration Analysis:
+☐ Comprehensive vibration survey
+☐ Envelope analysis (bearing faults)
+☐ Order tracking (if variable speed)
+☐ Update vibration database
+☐ Predict component life
+
+Electrical System:
+☐ Thermographic inspection
+☐ Power quality measurements
+☐ Insulation resistance trending
+☐ Connection resistance
+☐ Grounding system verification
+
+Blade Inspection:
+☐ Detailed visual inspection (ground)
+☐ Photographic documentation
+☐ Erosion mapping
+☐ Minor repairs if needed
+☐ Cleaning if required
+
+Generator Inspection:
+☐ Slip ring/brush measurement
+☐ Bearing temperature trending
+☐ Winding insulation test
+☐ Cooling system efficiency
+☐ Vibration analysis
+
+Gearbox:
+☐ Endoscopic inspection (all ports)
+☐ Photo documentation
+☐ Gear and bearing condition assessment
+☐ Oil filter inspection
+☐ Magnetic plug inspection
+
+Pitch System:
+☐ Pitch bearing inspection
+☐ Pitch motor performance test
+☐ Backup system full test
+☐ Battery replacement (if needed)
+☐ Calibration verification
+
+Yaw System:
+☐ Yaw bearing condition assessment
+☐ Gear wear inspection
+☐ Motor and brake testing
+☐ Sensors calibration check
+
+Control System:
+☐ Software/firmware updates
+☐ Sensor calibration verification
+☐ Set point review and optimization
+☐ Data logger maintenance
+☐ Backup/restore procedures
+
+Structural:
+☐ Tower bolt torque check (sample)
+☐ Foundation inspection
+☐ Corrosion protection assessment
+☐ Grounding system test
+
+ANNUAL MAINTENANCE
+==================
+
+Performed by: Full service team + specialists
+Duration: 24-40 hours (3-5 days)
+Frequency: Once per year
+Cost: $8,000-$15,000
+
+All semi-annual tasks plus:
+
+Comprehensive Inspections:
+
+Blades (Rope Access or Platform):
+☐ Close-up inspection of all three blades
+☐ Leading edge condition
+☐ Trailing edge condition
+☐ Lightning receptors
+☐ Structural integrity
+☐ Pitch bearing access (blade side)
+☐ Drain holes clear
+☐ Detailed photo documentation
+☐ Repairs as needed
+
+Main Bearing:
+☐ Endoscopic inspection (if ports available)
+☐ Play/clearance measurement
+☐ Vibration and temperature trending
+☐ Lubrication system check
+☐ Seal condition
+
+Gearbox:
+☐ Comprehensive endoscopic survey
+☐ All stages inspected
+☐ Photo/video documentation
+☐ Wear assessment
+☐ Oil filter detailed analysis
+☐ Breather service
+☐ Cooler effectiveness test
+
+Generator:
+☐ Partial disassembly if accessible
+☐ Bearing detailed inspection
+☐ Winding visual inspection
+☐ Rotor balance check
+☐ Cooling system cleaning
+☐ Slip ring/brush measurement
+
+Converter/Inverter:
+☐ Cooling system service
+☐ Capacitor bank inspection
+☐ IGBT condition assessment
+☐ Filter replacement
+☐ Connection torque check
+☐ Software updates
+
+Transformer:
+☐ Oil sample and analysis (if oil-filled)
+☐ Winding insulation test
+☐ Cooling system check
+☐ Bushing inspection
+☐ Thermographic survey
+
+Structural:
+☐ Comprehensive tower inspection
+☐ All tower bolt torque verification
+☐ Foundation detailed inspection
+☐ Corrosion assessment and treatment
+☐ Tower internal inspection (selected)
+☐ Obstruction lighting service
+
+Safety Systems:
+☐ All safety system functional tests
+☐ Fire suppression system service
+☐ Fall arrest equipment certification
+☐ First aid kit replenishment
+☐ Emergency procedures review
+
+Load Testing:
+☐ Crane inspection (if equipped)
+☐ Lifting equipment certification
+☐ Rope access equipment test
+
+Documentation:
+☐ Annual performance report
+☐ Condition assessment report
+☐ Maintenance forecast (next year)
+☐ Budget planning
+☐ Update O&M manual revisions
+
+Optimization:
+☐ Power curve analysis
+☐ Performance benchmarking
+☐ Control parameter optimization
+☐ Noise assessment
+☐ Grid compliance verification
+
+MAJOR SERVICE (EVERY 2-3 YEARS)
+================================
+
+Performed by: Manufacturer or certified specialists
+Duration: 40-80 hours (1-2 weeks)
+Cost: $15,000-$40,000
+
+Major Component Services:
+
+Gearbox Major Service:
+☐ Oil change (complete system)
+☐ System flush if needed
+☐ Filter replacement (all filters)
+☐ Breather replacement
+☐ Magnetic plug cleaning
+☐ Seal replacements (external)
+☐ Cooler service
+☐ Detailed bearing assessment
+☐ Stage-by-stage inspection
+
+Generator Service:
+☐ Slip ring refurbishment (machines/grind)
+☐ Brush replacement
+☐ Bearing replacement (both ends)
+☐ Cooling system overhaul
+☐ Winding cleaning
+☐ Insulation treatment
+☐ Rebalancing if needed
+
+Pitch System Service:
+☐ Pitch motor replacement (3x)
+☐ Encoder replacement
+☐ Drive gear inspection/replacement
+☐ Pitch cabinet service
+☐ Battery replacement
+☐ Backup system overhaul
+☐ Calibration
+
+Yaw System Service:
+☐ Yaw motor service/replacement (4x)
+☐ Brake pad replacement
+☐ Yaw bearing regreasing (full)
+☐ Cable inspection
+☐ Slip ring service (if applicable)
+
+Brake System:
+☐ Brake pad replacement
+☐ Caliper overhaul
+☐ Disc inspection/refurbishment
+☐ Hydraulic system service
+
+Hydraulic System:
+☐ Oil replacement
+☐ Filter replacement
+☐ Accumulator service
+☐ Pump inspection
+☐ Valve service
+☐ Hose replacement program
+
+Control System:
+☐ Major software updates
+☐ PLC battery replacement
+☐ Sensor replacements (age-based)
+☐ Cabinet cooling service
+☐ UPS battery replacement
+
+MAJOR OVERHAUL (EVERY 5-7 YEARS)
+=================================
+
+Performed by: OEM or specialized contractors
+Duration: 2-4 weeks
+Cost: $50,000-$150,000
+
+Life Extension Activities:
+
+Gearbox:
+☐ Remove for workshop overhaul OR
+☐ Major in-situ refurbishment
+☐ All bearings replaced
+☐ Seals replaced
+☐ Gear inspection/repair
+☐ Housing inspection
+☐ Shaft inspection
+☐ Reassembly with new specifications
+
+Generator:
+☐ Complete rewinding OR
+☐ Major service and insulation treatment
+☐ All bearings replaced
+☐ Slip ring replacement
+☐ Rotor rebalancing
+☐ Cooling system renewal
+
+Main Bearing:
+☐ Inspection and assessment
+☐ Replacement if showing wear
+☐ Seal replacement
+☐ Housing inspection
+
+Pitch System:
+☐ Pitch bearing regreasing (complete)
+☐ All motors replaced
+☐ Electronics upgraded
+☐ Backup system complete renewal
+☐ Structural inspection
+
+Blades:
+☐ Major repairs/refurbishment
+☐ Leading edge protection renewal
+☐ Coating renewal
+☐ Lightning protection service
+☐ Structural reinforcement if needed
+
+Tower:
+☐ Complete internal inspection
+☐ Repainting (interior and/or exterior)
+☐ Bolt replacement program
+☐ Corrosion protection renewal
+☐ Cable inspection/replacement
+
+Electrical:
+☐ Converter refurbishment or replacement
+☐ Transformer service or replacement
+☐ All major cables inspection
+☐ Switchgear service
+☐ Grounding system verification
+
+Control System:
+☐ Complete upgrade to current version
+☐ All sensors replaced
+☐ Communication system upgrade
+☐ SCADA interface update
+
+END-OF-WARRANTY INSPECTION (YEAR 2-5)
+======================================
+
+Performed by: Independent inspector + OEM
+Duration: 3-5 days
+Cost: $10,000-$25,000
+
+Comprehensive Assessment:
+
+Performance Verification:
+☐ Power curve verification
+☐ Availability analysis
+☐ Energy production vs. warranty
+☐ Noise compliance verification
+
+Structural:
+☐ Comprehensive inspection all major components
+☐ Blade condition assessment
+☐ Tower and foundation
+☐ Corrosion assessment
+
+Mechanical:
+☐ Gearbox detailed inspection
+☐ Main bearing assessment
+☐ Generator inspection
+☐ All rotating equipment assessment
+
+Documentation:
+☐ Complete punch list of deficiencies
+☐ Warranty claims preparation
+☐ Future maintenance forecast
+☐ Budget planning for post-warranty period
+
+CONDITION-BASED MAINTENANCE TRIGGERS
+=====================================
+
+Beyond scheduled maintenance, immediate action required for:
+
+Temperature Alarms:
+- Gearbox >70°C: Inspect within 48h
+- Generator >110°C: Inspect within 24h
+- Any bearing >10°C above normal: Investigate immediately
+
+Vibration Alarms:
+- >4.0 mm/s: Inspect within 1 week
+- >7.0 mm/s: Inspect within 48h
+- Rapid increase (>50% in 1 week): Immediate inspection
+
+Oil Analysis:
+- Iron >200 ppm: Schedule inspection
+- Water >1000 ppm: Schedule oil change
+- Acid number >4.0: Immediate oil change
+
+Performance:
+- Power curve deviation >10%: Investigate within 2 weeks
+- Availability <95%: Review immediately
+- Excessive alarms/stops: Immediate review
+
+SPARE PARTS PLANNING
+====================
+
+Critical Spares (On-site):
+- Hydraulic oil and filters
+- Pitch system batteries
+- Basic electrical components
+- Seals and gaskets kit
+- Oil samples containers
+
+Strategic Spares (Regional stock):
+- Pitch motors
+- Yaw motors
+- Generator bearings
+- Gearbox bearings
+- Brake pads
+- Major filters
+
+Long-Lead Items (Plan ahead):
+- Gearbox (12-20 weeks)
+- Generator (8-16 weeks)
+- Main bearing (8-12 weeks)
+- Blades (12-24 weeks)
+- Pitch bearings (8-16 weeks)
+
+MAINTENANCE COST SUMMARY
+========================
+
+Annual Maintenance Budget (per turbine):
+
+Year 1-2 (Warranty):
+- Basic monitoring: $2,000-$4,000
+- Manufacturer services included
+- Total: $2,000-$4,000
+
+Year 3-7 (Prime operating period):
+- Routine maintenance: $12,000-$18,000
+- Condition monitoring: $3,000-$5,000
+- Minor repairs: $3,000-$8,000
+- Total: $18,000-$31,000
+
+Year 8-15 (Mid-life):
+- Routine maintenance: $15,000-$22,000
+- Condition monitoring: $3,000-$5,000
+- Repairs and replacements: $10,000-$25,000
+- Total: $28,000-$52,000
+
+Year 16-20 (Extended operation):
+- Routine maintenance: $18,000-$25,000
+- Condition monitoring: $3,000-$5,000
+- Major repairs/replacements: $20,000-$50,000
+- Total: $41,000-$80,000
+
+20-Year Lifecycle:
+- Total maintenance: $600,000-$1,200,000
+- Per kWh produced: $0.004-$0.008
+- % of revenue: 15-25%
+
+BEST PRACTICES
+==============
+
+✓ Never skip scheduled maintenance
+✓ Respond to condition monitoring alerts promptly
+✓ Maintain detailed records
+✓ Plan major services during low-wind seasons
+✓ Stock critical spare parts
+✓ Train technicians continuously
+✓ Use OEM recommended procedures
+✓ Coordinate with other site activities
+✓ Plan for obsolescence issues
+✓ Budget for unexpected repairs (10-15% contingency)
+
+SUCCESS METRICS
+===============
+
+Well-Maintained Fleet:
+- Availability: >97%
+- Capacity Factor: Within 5% of site potential
+- Major failure rate: <2% per year
+- Unplanned maintenance: <15% of total
+- Safety incidents: Zero
+- Warranty claims: Minimal
+
+These targets are achievable with disciplined execution of the maintenance schedule and prompt response to condition monitoring alerts.
