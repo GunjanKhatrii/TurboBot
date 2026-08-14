@@ -427,44 +427,6 @@ python backend.py
 npm run dev
 ```
 
-### **Production (Docker)**
-
-```dockerfile
-# Dockerfile (example)
-FROM python:3.9-slim
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-RUN npm install && npm run build
-
-EXPOSE 5000
-CMD ["python", "backend.py"]
-```
-
-```bash
-docker build -t turbobot .
-docker run -p 5000:5000 turbobot
-```
-
-### **Cloud Deployment**
-
-**For production with cloud AI:**
-
-1. Replace Ollama with OpenAI/Claude API
-2. Update `.env`:
-   ```bash
-   AI_PROVIDER=openai
-   OPENAI_API_KEY=your-key-here
-   ```
-3. Deploy to:
-   - AWS: EC2 + S3 for knowledge base
-   - GCP: Cloud Run + Cloud Storage
-   - Azure: App Service + Blob Storage
-
----
 
 ## 🛠️ **Configuration**
 
@@ -576,10 +538,6 @@ mypy rag/
 
 ---
 
-## 📄 **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 ## 🙏 **Acknowledgments**
@@ -594,28 +552,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 **Contact**
 
-**Your Name** - [your.email@example.com](mailto:your.email@example.com)
+**Your Name** - [gunjan2002khatri@gmail.com](gunjan2002khatri@gmail.com)
 
-**Project Link**: [https://github.com/yourusername/turbobot](https://github.com/yourusername/turbobot)
-
----
-
-## 📚 **Documentation**
-
-- [Installation Guide](docs/INSTALLATION.md)
-- [API Reference](docs/API.md)
-- [RAG System Deep Dive](docs/RAG_ARCHITECTURE.md)
-- [Knowledge Base Format](docs/KNOWLEDGE_BASE.md)
-- [Troubleshooting](docs/TROUBLESHOOTING.md)
-
----
-
-## 📊 **Project Stats**
-
-![GitHub stars](https://img.shields.io/github/stars/yourusername/turbobot?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/turbobot?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/turbobot)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/turbobot)
+**Project Link**: [GITHUB](https://github.com/GunjanKhatrii/TurboBot)
 
 ---
 
@@ -629,13 +568,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🎯 **Quick Links**
-
-- [Demo Video](https://youtu.be/your-demo-video)
-- [Academic Paper](docs/PAPER.pdf)
-- [Presentation Slides](docs/PRESENTATION.pdf)
-- [Technical Report](docs/REPORT.pdf)
-
----
-
-*Last updated: January 2026*
