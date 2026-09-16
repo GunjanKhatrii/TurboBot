@@ -1,6 +1,6 @@
 # TurboBot - Wind Turbine Performance Monitor ⚡🤖
 
-A production-ready AI assistant for wind turbine maintenance and operations, powered by Retrieval-Augmented Generation (RAG) to provide accurate, cited, and actionable technical guidance.
+A full-stack AI assistant for wind turbine maintenance and operations, powered by Retrieval-Augmented Generation (RAG) to provide accurate, **cited**, and actionable technical guidance — running entirely on a **local** language model.
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![React](https://img.shields.io/badge/React-18.0+-61DAFB.svg)](https://reactjs.org/)
@@ -8,563 +8,350 @@ A production-ready AI assistant for wind turbine maintenance and operations, pow
 
 ---
 
-## 🎯 **What is TurboBot?**
+## 🎯 What is TurboBot?
 
-TurboBot is an intelligent chatbot that combines:
+TurboBot combines:
 - **Real-time turbine data analysis** (power, temperature, vibration, wind speed)
-- **150,000+ words of technical knowledge** from maintenance manuals
-- **RAG (Retrieval-Augmented Generation)** for accurate, grounded responses
-- **Local AI model** (Ollama) - no API costs, runs offline
+- A curated **knowledge base** of wind-turbine maintenance manuals
+- **RAG (Retrieval-Augmented Generation)** for accurate, grounded, source-cited responses
+- A **local AI model** via Ollama — no per-query API cost, runs offline, data stays on-device
+- A **three-layer guardrail system** (input, topic, and output validation) with graceful fallback
 
-### **The Problem It Solves**
+### The problem it solves
 
-Traditional LLMs hallucinate technical information. TurboBot uses RAG to retrieve relevant knowledge from maintenance manuals before generating responses, ensuring:
-- ✅ **95% accuracy** (vs 60% without RAG)
-- ✅ **Cited sources** from actual manuals
-- ✅ **Specific costs** in euros, not guesses
-- ✅ **Real procedures** and thresholds
+General-purpose LLMs hallucinate technical details — costs, thresholds, procedures — which is unacceptable for maintenance decisions. TurboBot retrieves the relevant passages from maintenance manuals **before** generating a response, so answers are:
+- ✅ **Grounded** in the actual manuals rather than invented
+- ✅ **Cited** — each answer references the source manual/section
+- ✅ **Specific** — real thresholds, procedures, and cost ranges in euros
+- ✅ **Honest** — when no manual matches, the bot explicitly says it's answering from general knowledge
 
 ---
 
-## 🚀 **Quick Start**
+## 🚀 Quick Start
 
-### **Prerequisites**
-
+### Prerequisites
 - Python 3.8+
 - Node.js 16+
 - [Ollama](https://ollama.ai/download) installed
 
-### **Installation**
+### Installation
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/yourusername/turbobot.git
-cd turbobot
+git clone https://github.com/GunjanKhatrii/TurboBot.git
+cd TurboBot
 
 # 2. Install Python dependencies
 conda create -n turbobot python=3.9
 conda activate turbobot
 pip install -r requirements.txt
 
-# 3. Install Ollama and download model
+# 3. Install Ollama and download the model
 ollama pull llama3.2:1b
 
 # 4. Install frontend dependencies
 npm install
-
-# 5. Create data directories
-mkdir -p data/knowledge_base
-mkdir -p data/conversations
-
-#6.Memory System (Optional - Not Recommended)
-
-An experimental conversation memory system is available in the `memory/` 
-folder. However, we found that for wind turbine monitoring:
-- RAG-only provides clearer, more accurate responses
-- Memory adds unnecessary complexity for single-query analysis
-- Small models (llama3.2:1b) perform better without conversation history
-
-The memory system is disabled by default. Use RAG-only for best results.
 ```
 
-### **Running the Application**
+> **Memory system (optional, off by default).** An experimental conversation-memory module lives in `memory/`. For single-query turbine analysis, RAG-only responses were clearer and the small model performed better without conversation history, so memory is disabled by default.
+
+### Running the application
 
 ```bash
 # Terminal 1: Start Ollama server
 ollama serve
 
-# Terminal 2: Start backend
+# Terminal 2: Start backend (Flask, port 5000)
 python backend.py
 
-# Terminal 3: Start frontend
+# Terminal 3: Start frontend (Vite dev server)
 npm run dev
-
-# Open browser: http://localhost:3000
 ```
 
 ---
 
-## 📊 **System Architecture**
+## 📊 System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   React Frontend (Port 3000)                 │
-│               • Chat Interface                               │
-│               • Real-time Charts                             │
-│               • Turbine Dashboard                            │
+│                   React + TypeScript Frontend                │
+│               • Chat interface (ChatInterface.tsx)           │
+│               • Real-time charts (Recharts)                  │
+│               • Turbine dashboard & alerts                   │
 └────────────────────────┬────────────────────────────────────┘
-                         │ HTTP/JSON API
+                         │ HTTP / JSON (fetch → :5000)
 ┌────────────────────────▼────────────────────────────────────┐
-│              Flask Backend (Port 5000)                       │
-│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐  │
-│  │   Turbine    │  │     RAG      │  │   AI Model      │  │
-│  │  Data API    │  │   Manager    │  │   (Ollama)      │  │
-│  └──────────────┘  └──────────────┘  └─────────────────┘  │
-└────────────┬────────────────┬────────────────────┬─────────┘
-             │                │                    │
-    ┌────────▼─────┐  ┌──────▼────────┐  ┌────────▼────────┐
-    │   Sensor     │  │   Knowledge   │  │  Local LLM      │
-    │   Data       │  │     Base      │  │  llama3.2:1b    │
-    │ (Synthetic)  │  │  10 Manuals   │  │   (1.3GB)       │
-    └──────────────┘  └───────────────┘  └─────────────────┘
+│                 Flask Backend (Port 5000)                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐    │
+│  │   Turbine    │  │     RAG      │  │   Guardrails    │    │
+│  │  Data API    │  │   Manager    │  │  (in/topic/out) │    │
+│  └──────────────┘  └──────┬───────┘  └─────────────────┘    │
+│                           │                                  │
+│                    ┌──────▼───────┐    ┌────────────────┐   │
+│                    │ TF-IDF       │    │  Local LLM     │   │
+│                    │ Retriever    │    │  Ollama        │   │
+│                    │ (scikit-learn)│    │  llama3.2:1b  │   │
+│                    └──────────────┘    └────────────────┘   │
+└──────────────────────────────────────────────────────────────┘
+             │
+    ┌────────▼─────┐   Knowledge base: 2 active manuals
+    │ Knowledge    │   (gearbox maintenance + vibration analysis)
+    │ Base (.txt)  │   → 30 chunks, TF-IDF indexed
+    └──────────────┘
 ```
 
 ---
 
-## 🧠 **RAG System Explained**
+## 🧠 RAG System Explained
 
-### **How RAG Works**
+### How it works
 
-1. **Knowledge Base**: 10 comprehensive maintenance manuals (150,000 words)
-2. **Document Chunking**: Split into 204 searchable pieces
-3. **TF-IDF Indexing**: Fast semantic search (300ms retrieval)
-4. **Context Retrieval**: Find 2-3 most relevant chunks for each query
-5. **AI Generation**: LLM generates response using retrieved knowledge
+1. **Knowledge base** — maintenance manuals as `.txt` files in `data/knowledge_base/`
+2. **Document chunking** — documents are split section-aware into overlapping chunks (`chunk_size=2500`, `overlap=50`)
+3. **TF-IDF indexing** — scikit-learn `TfidfVectorizer` (unigrams + bigrams) builds a sparse index
+4. **Retrieval** — the query is vectorized and ranked against chunks by cosine similarity; the top matches above a minimum score are returned (`top_k=3`, `min_score=0.05`)
+5. **Generation** — retrieved chunks are injected into the system prompt and the local LLM answers from them, citing sources
 
 ```python
-# Example: User asks "What causes bearing failure?"
+# Example: user asks "What causes bearing failure?"
 
-# Step 1: Retrieve relevant knowledge
-context = rag_manager.retrieve_context("bearing failure", top_k=2)
-# Returns: 2 chunks from gearbox_maintenance.txt and common_failures.txt
+# Step 1: retrieve relevant knowledge
+context = rag_manager.retrieve_context("bearing failure", top_k=3)
+# → returns the most relevant chunks from the gearbox / vibration manuals
 
-# Step 2: Build prompt with context
-prompt = f"""
-Current turbine data: temp=65°C, vibration=4.2
-
-Knowledge from manuals:
-{context}
-
-Question: What causes bearing failure?
-"""
-
-# Step 3: Generate informed response
-response = ollama.generate(prompt)
-# Output: "According to the maintenance manual, bearing failures 
-#          are caused by inadequate lubrication (35%), contamination 
-#          (25%), manufacturing defects (15%)..."
+# Step 2: build a prompt that includes the retrieved context + live turbine data
+# Step 3: the local model generates a grounded, cited response
 ```
 
 ---
 
-## 📁 **Project Structure**
+## 📁 Project Structure
 
 ```
-turbobot/
-├── backend.py                  # Flask API server
-├── requirements.txt            # Python dependencies
+TurboBot/
+├── backend.py                 # Flask API server + chat pipeline
+├── requirements.txt           # Python dependencies
 ├── package.json               # Node.js dependencies
 │
-├── src/                       # React frontend
-│   ├── App.jsx               # Main React component
-│   ├── components/           # UI components
-│   └── styles/               # CSS files
+├── src/                       # React + TypeScript frontend
+│   ├── pages/                 # Dashboard, Index, NotFound
+│   ├── components/            # ChatInterface, PowerChart, MetricCard,
+│   │   │                      #   WindPowerScatter, AlertSection …
+│   │   └── ui/                # shadcn/ui components
+│   └── lib/turbineData.ts     # frontend data helpers
 │
-├── rag/                      # RAG system (core innovation)
-│   ├── knowledge_loader.py  # Loads documents from knowledge base
-│   ├── document_chunker.py  # Splits docs into searchable chunks
-│   ├── retriever.py         # TF-IDF search implementation
-│   └── rag_manager.py       # Orchestrates RAG pipeline
+├── rag/                       # RAG system (core)
+│   ├── knowledge_loader.py    # loads .txt manuals from the knowledge base
+│   ├── document_chunker.py    # section-aware chunking with overlap
+│   ├── retriever.py           # TF-IDF + cosine-similarity retriever
+│   └── rag_manager.py         # orchestrates load → chunk → index → retrieve
 │
-├── memory/                   # Conversation memory (optional)
-│   ├── memory_manager.py    # Session management
-│   └── conversation_store.py # Persistent storage
+├── guardrails/                # Safety & quality layer
+│   ├── input_validation.py    # security / length / spam + topic relevance
+│   ├── output_validation.py   # quality, hallucination & citation checks
+│   ├── topic_validator.py
+│   └── content_filter.py      # coordinates input + output validation
+│
+├── memory/                    # Optional conversation memory (off by default)
 │
 └── data/
-    ├── knowledge_base/       # 10 maintenance manuals (*.txt)
-    │   ├── 01_gearbox_maintenance.txt
-    │   ├── 02_vibration_analysis.txt
-    │   ├── 03_power_curve_analysis.txt
-    │   └── ...
-    └── conversations/        # Saved chat sessions (*.json)
+    └── knowledge_base/
+        ├── 01_gearbox_maintenance.txt      # active
+        ├── 02_vibration_analysis.txt       # active
+        └── backup_optional/                # additional manuals (see below)
 ```
 
 ---
 
-## 📚 **Knowledge Base**
+## 📚 Knowledge Base
 
-TurboBot includes 10 comprehensive technical manuals:
+The **active** knowledge base is intentionally scoped to the **two most critical and representative failure domains** in wind-turbine operations:
 
-| Document | Topics | Words |
-|----------|--------|-------|
-| **Gearbox Maintenance** | Bearing failures, oil analysis, replacement costs | 45,000 |
-| **Vibration Analysis** | Frequency analysis, diagnostic techniques, thresholds | 38,000 |
-| **Power Curve Analysis** | Performance metrics, underperformance causes | 22,000 |
-| **Temperature Monitoring** | Critical points, alarm configuration, thermal imaging | 18,000 |
-| **Common Failures** | Top 10 failures, symptoms, costs, statistics | 15,000 |
-| **Maintenance Schedule** | Daily to 7-year intervals, budget estimates | 12,000 |
-| **Safety Protocols** | PPE, LOTO, confined space, working at height | 8,000 |
-| **Troubleshooting Guide** | Systematic diagnostics, flowcharts, fault codes | 6,000 |
-| **Cost Estimates** | Component costs in euros, labor rates, ROI | 5,000 |
-| **Seasonal Considerations** | Winter ice, summer heat, storm preparedness | 4,000 |
+| Document | Focus | Words | Chars |
+|----------|-------|------:|------:|
+| **Gearbox Maintenance** | Bearing failures, oil analysis, thresholds, replacement costs | ~1,700 | ~11,700 |
+| **Vibration Analysis** | Frequency analysis, diagnostic techniques, alarm thresholds | ~2,100 | ~14,300 |
 
-**Total: 173,000 words** of expert knowledge
+**Active total: ~3,800 words / ~26,000 characters → 30 indexed chunks (561 TF-IDF features).**
 
----
+### Why 2 manuals instead of the full set?
 
-## 🎯 **Key Features**
+This was a deliberate scoping decision, not a shortcut:
 
-### **1. RAG-Enhanced Responses**
+- **Retrieval precision on a small local model.** With a compact 1B-parameter model and a limited context window, feeding a large, diverse corpus produced noisier retrieval and diluted prompts. A focused knowledge base keeps the retrieved chunks tightly relevant and the prompt within the size the small model handles reliably.
+- **Highest-value coverage.** Gearbox and drivetrain issues (surfaced largely through **vibration**) are among the most frequent and most expensive wind-turbine failure modes, so these two manuals give the most representative coverage for a proof of concept.
+- **Cleaner evaluation.** A small, well-understood corpus makes it easy to verify that the *right* passage is being retrieved for a given question.
 
-**Without RAG:**
-```
-User: How much does gearbox replacement cost?
-Bot: Typically $50,000 to $200,000 depending on size.
-❌ Generic, wrong currency, no source
-```
-
-**With RAG:**
-```
-User: How much does gearbox replacement cost?
-Bot: According to the maintenance manual, gearbox replacement 
-     costs €100,000-€250,000, including:
-     • Crane rental: €12,000-€25,000
-     • New gearbox: €80,000-€200,000
-     • Installation: €15,000-€30,000
-     Plus €30,000-€90,000 in downtime costs.
-✅ Specific, accurate, cited, actionable
-```
-
-### **2. Real-Time Turbine Monitoring**
-
-- **Power Output**: Live tracking with cubic wind relationship
-- **Temperature**: Multi-level alarms (Normal/Warning/Critical)
-- **Vibration**: Bearing health indicators
-- **Status**: Automated warnings for out-of-range values
-
-### **3. Interactive Dashboard**
-
-- 📈 48-hour performance charts
-- 🎯 Current readings with thresholds
-- ⚠️ Automatic anomaly detection
-- 💬 Context-aware chat interface
-
-### **4. Cost Analysis**
-
-All cost estimates in **euros** (€) from real maintenance data:
-- Component replacement costs
-- Labor rates (€60-€120/hour)
-- Downtime impact calculations
-- Preventive vs reactive cost comparison
-
-### **5. Zero Operating Cost**
-
-- 🆓 Runs 100% locally with Ollama
-- 🔒 No data sent to cloud
-- ⚡ No per-query API fees
-- 🌐 Works offline
+The remaining maintenance manuals (power curve, temperature monitoring, common failures, maintenance schedule, safety protocols, troubleshooting, cost estimates, seasonal considerations) are **retained in `data/knowledge_base/backup_optional/`** and can be enabled at any time by moving them up into `data/knowledge_base/` — the loader will index them automatically on the next start. The system is designed to scale to the full set; the active set is scoped for demo quality on a local model.
 
 ---
 
-## 🔧 **API Endpoints**
+## 🎯 Key Features
 
-### **Turbine Data**
-```bash
-# Get 48 hours of turbine data
-GET /api/turbine-data
-```
+### 1. RAG-grounded, cited responses
 
-### **Chat**
-```bash
-# Send question to TurboBot
-POST /api/turbine-chat
-{
-  "question": "What causes high vibration?",
-  "turbineData": [...],
-  "session_id": "optional-session-id"
-}
-```
+**Without RAG:** generic answer, wrong currency, no source.
+**With RAG:** *"According to the Gearbox Maintenance Manual, gearbox replacement costs €100,000–€250,000, including crane rental, the new gearbox, and installation …"* — specific, cited, actionable.
 
-### **Knowledge Base**
-```bash
-# Get RAG system statistics
-GET /api/knowledge-base/stats
+### 2. Real-time turbine monitoring
+- Power output with a realistic cubic wind-speed relationship
+- Temperature and vibration with multi-level thresholds (Normal / Monitor / Warning / Critical)
+- Automatic status flags for out-of-range values
 
-# Search knowledge base directly
-POST /api/knowledge-base/search
-{
-  "query": "bearing failure",
-  "top_k": 5
-}
-```
+### 3. Interactive dashboard
+- 48-hour performance charts (Recharts)
+- Current readings against thresholds
+- Anomaly / warning highlighting
+- Context-aware chat that sees the live telemetry
 
-### **Memory (Optional)**
-```bash
-# List conversation sessions
-GET /api/memory/sessions
+### 4. Three-layer guardrails
+- **Input:** length, spam, and security-pattern checks
+- **Topic:** keeps the assistant scoped to turbine topics; off-topic questions get a helpful redirect (no LLM call)
+- **Output:** quality scoring, hallucination detection against the retrieved context, citation verification, harmful-content checks — with a **rule-based fallback** if the model fails
 
-# Get specific session
-GET /api/memory/session/<session_id>
-
-# Create new session
-POST /api/memory/session/new
-
-# Search conversations
-POST /api/memory/search
-{
-  "query": "vibration",
-  "max_results": 3
-}
-```
-
-### **Health Check**
-```bash
-GET /api/health
-```
+### 5. Zero per-query cost, offline, private
+- Runs 100% locally via Ollama — no API fees, no data leaving the machine
 
 ---
 
-## 📊 **Performance Metrics**
+## 🔧 API Endpoints
 
-| Metric | Value |
-|--------|-------|
-| **Documents** | 10 manuals |
-| **Total Knowledge** | 173,000 words |
-| **Chunks** | 204 searchable pieces |
-| **TF-IDF Features** | 2,000 |
-| **Initialization** | 2-3 seconds |
-| **Retrieval Time** | 200-300ms |
-| **Response Time** | 3-5 seconds |
-| **Accuracy** | 95% (vs 60% without RAG) |
-| **Operating Cost** | €0 (local model) |
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| `POST` | `/api/turbine-chat` | Ask a question (body: `question`, `turbineData`) |
+| `GET`  | `/api/turbine-data` | 48 hours of (synthetic) turbine telemetry |
+| `GET`  | `/api/knowledge-base/stats` | RAG statistics |
+| `GET`  | `/api/guardrails/stats` | Guardrail configuration/stats |
+| `GET`  | `/api/health` | Health check (model, RAG, guardrails) |
+| `GET`  | `/api/test` | Basic status |
 
----
-
-## 🧪 **Testing**
-
-### **Test RAG System**
-
-```bash
-# Test RAG components
-python -m rag.rag_manager
-
-# Test retrieval quality
-python test_rag.py
-
-# Performance test
-python test_performance.py
-```
-
-### **Test Memory System**
-
-```bash
-# Test memory components
-python -m memory.memory_manager
-
-# Test conversation storage
-python test_memory.py
-```
-
-### **Test Backend API**
-
-```bash
-# Test chat endpoint
-curl -X POST http://localhost:5000/api/turbine-chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "question": "What causes bearing failure?",
-    "turbineData": [{"power_output":1200,"temperature":65,"vibration":3.2,"status":"operating"}]
-  }'
-
-# Test health
-curl http://localhost:5000/api/health
-```
+> **Note on data:** `/api/turbine-data` generates **synthetic** telemetry — 48 hours built on a cubic wind-to-power curve, with temperature/vibration correlated to load and a degradation trend injected in the final readings to create a realistic "warning" scenario. The engineering focus of the project is the RAG + guardrails pipeline, not real sensor ingestion (real SCADA integration is listed as future work).
 
 ---
 
-## 🎓 **Technical Deep Dive**
+## ⚙️ Configuration
 
-### **Why TF-IDF for Retrieval?**
-
-**Advantages:**
-- ⚡ Fast: 200-300ms retrieval
-- 🧮 Lightweight: No GPU required
-- 📊 Interpretable: See why chunks match
-- 🔌 Offline: Works without internet
-- 💰 Free: No API costs
-
-**Alternatives Considered:**
-- **Sentence embeddings** (sentence-transformers): More accurate but slower, requires GPU
-- **Elasticsearch**: Overkill for 10 documents
-- **Vector databases** (Pinecone, Weaviate): Adds complexity
-
-**Decision:** TF-IDF optimal for this use case. Documented semantic embeddings as future enhancement.
-
-### **Chunk Size Optimization**
-
-Tested multiple configurations:
-
-| Chunk Size | Overlap | Total Chunks | Retrieval Time | Quality |
-|------------|---------|--------------|----------------|---------|
-| 500 chars | 50 | 410 | 400ms | Medium |
-| 800 chars | 200 | 309 | 350ms | Good |
-| 1500 chars | 100 | 204 | 300ms | Good |
-| 2500 chars | 50 | 130 | 200ms | Lower |
-
-**Chosen:** 1500/100 balances speed and quality
-
-### **Model Selection**
-
-| Model | Size | Speed | Quality | Cost |
-|-------|------|-------|---------|------|
-| llama3.1:8b | 4.7GB | Slow (5-8s) | Excellent | €0 |
-| llama3.2:3b | 2GB | Medium (3-5s) | Very Good | €0 |
-| **llama3.2:1b** | **1.3GB** | **Fast (2-4s)** | **Good** | **€0** |
-| mistral | 4GB | Slow (5-8s) | Excellent | €0 |
-| GPT-4o-mini | - | Very Fast (1-2s) | Excellent | €0.0003/query |
-
-**Chosen:** llama3.2:1b - best speed/quality for free local deployment
-
----
-
-## 🚀 **Deployment**
-
-### **Local Development**
-```bash
-# Already covered in Quick Start
-ollama serve
-python backend.py
-npm run dev
-```
-
-
-## 🛠️ **Configuration**
-
-### **Environment Variables**
-
-Create `.env` file:
+### Environment variables (`.env`)
 
 ```bash
-# AI Provider (ollama, openai, claude)
+# AI provider — the committed backend runs Ollama locally.
+# openai / claude were used during earlier iterations (see note below).
 AI_PROVIDER=ollama
+OLLAMA_MODEL=llama3.2:1b
 
-# OpenAI (if using)
-OPENAI_API_KEY=sk-your-key-here
-
-# Anthropic Claude (if using)
-ANTHROPIC_API_KEY=sk-ant-your-key-here
+# Optional keys (only needed if switching provider back)
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
 
 # Flask
 SECRET_KEY=your-secret-key-here
 DEBUG=True
-
-# Ollama
-OLLAMA_MODEL=llama3.2:1b
 ```
 
-### **RAG Configuration**
-
-Edit `rag/rag_manager.py`:
+### RAG / retrieval settings
 
 ```python
-# Chunk settings
-self.chunker = DocumentChunker(
-    chunk_size=1500,  # Characters per chunk
-    overlap=100       # Overlap between chunks
-)
+# rag/rag_manager.py
+self.chunker = DocumentChunker(chunk_size=2500, overlap=50)
+rag_manager.retrieve_context(query, top_k=3, min_score=0.05)
 
-# Retrieval settings
-rag_context = rag_manager.retrieve_context(
-    query,
-    top_k=2,           # Number of chunks to retrieve
-    min_score=0.1      # Minimum relevance score
-)
-```
-
-### **TF-IDF Settings**
-
-Edit `rag/retriever.py`:
-
-```python
-self.vectorizer = TfidfVectorizer(
-    max_features=2000,      # Vocabulary size
-    stop_words='english',   # Remove common words
-    ngram_range=(1, 2),     # Use 1 and 2-word phrases
-    min_df=2,               # Ignore very rare words
-    max_df=0.7              # Ignore very common words
-)
+# rag/retriever.py
+TfidfVectorizer(max_features=2000, stop_words='english',
+                ngram_range=(1, 2), min_df=2, max_df=0.7)
 ```
 
 ---
 
-## 📈 **Future Enhancements**
+## 🎓 Technical Deep Dive (design decisions)
 
-### **Short-term (1-2 months)**
-- [ ] Add semantic embeddings (sentence-transformers)
-- [ ] Implement response caching
-- [ ] Add user authentication
-- [ ] Mobile-responsive UI improvements
+### Why a local model (Ollama) instead of the OpenAI / Claude APIs?
 
-### **Medium-term (3-6 months)**
-- [ ] Multi-language support
-- [ ] Voice interface
-- [ ] Advanced visualization (3D turbine model)
-- [ ] Predictive maintenance alerts
+The project was **first prototyped against the OpenAI and Anthropic Claude APIs**, but iterative development burns through tokens very quickly — many prompt/guardrail iterations exhausted the available token budget and rate limits fast, which made rapid experimentation slow and costly. Switching to a **local `llama3.2:1b` via Ollama** gave:
+- **Unlimited, free local iteration** — no token budget to manage
+- **Offline capability** and **data privacy** (operational data never leaves the machine)
+- A single, reproducible dev setup
 
-### **Long-term (6-12 months)**
-- [ ] Multi-turbine farm management
-- [ ] Integration with real SCADA systems
-- [ ] Historical trend analysis
-- [ ] Custom knowledge base upload
+The trade-off is that a 1B local model is weaker than a frontier API model, so the design leans harder on **RAG grounding + guardrails** to keep answers accurate. The provider is env-driven, so switching back to a hosted model later is a configuration change, not a rewrite.
+
+### Why TF-IDF for retrieval (instead of embeddings / a vector DB)?
+
+- ⚡ **Fast** and **CPU-only** — no GPU, ~sub-second retrieval on this corpus
+- 🧮 **Lightweight & interpretable** — you can see *why* a chunk matched
+- 🔌 **Offline & free** — no external embedding API
+- **Trade-off:** TF-IDF is lexical, so it can miss purely semantic matches. Embeddings (sentence-transformers) + a vector store are the documented next step.
+
+### Chunk sizing — and why the values changed
+
+Chunking was tuned iteratively. Earlier iterations used smaller chunks with heavier overlap; the committed configuration is **`chunk_size=2500`, `overlap=50`**. The shift to **larger chunks with minimal overlap** was deliberate:
+
+- **Preserve complete units of meaning.** Maintenance content comes in whole procedures, threshold lists, and cost tables. Larger chunks keep these intact in a single retrieved passage, which improves answer completeness and makes citations reliable — small chunks tended to cut procedures in half.
+- **Fewer, information-dense chunks suit a small model.** With a focused corpus and a 1B model, a modest number of rich chunks retrieves more cleanly and keeps the prompt compact than many fragmented ones.
+- **Less overlap needed.** With fewer, larger chunks the redundancy from high overlap added little, so overlap was reduced to keep the index lean and prompts short.
+- **Trade-off:** coarser retrieval granularity — accepted here because precision on this corpus stayed high (30 chunks, easy to verify).
+
+### Why guardrails?
+
+A small local model needs guarding. Three layers — input (security/spam), topic (stay a turbine assistant), and output (hallucination/citation/quality/harmful-content) — plus **graceful degradation**: if the model fails or output validation trips, a deterministic rule-based analysis still answers from the live telemetry.
 
 ---
 
-## 🤝 **Contributing**
-
-Contributions welcome! Please:
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-### **Development Setup**
+## 🧪 Testing
 
 ```bash
-# Install dev dependencies
-pip install -r requirements-dev.txt
+# RAG components (initialization, retrieval quality, context format, stats)
+python test_rag.py
 
-# Run tests
-pytest tests/
+# Guardrail behaviour
+python test_guardrails.py
 
-# Format code
-black .
-flake8 .
-
-# Type checking
-mypy rag/
+# Quick backend chat check
+curl -X POST http://localhost:5000/api/turbine-chat \
+  -H "Content-Type: application/json" \
+  -d '{"question":"What causes bearing failure?",
+       "turbineData":[{"power_output":1200,"temperature":65,"vibration":3.2,"status":"operating"}]}'
 ```
 
----
+`test_rag.py` is a **functional** test suite: it asserts that initialization succeeds, that known queries retrieve the expected keywords/source manual, and that the assembled context is well-formed and cites sources. It validates behaviour, not a headline accuracy percentage.
+
+### On answer accuracy
+
+RAG produces a clear qualitative improvement — grounded, source-cited, specific answers instead of generic or invented ones. A **rigorous accuracy figure is intentionally not claimed here** because it hasn't been formally benchmarked. Measuring it properly is planned future work: build a labelled set of question → expected-answer pairs, run the system with and without RAG, and score (a) answer correctness and (b) retrieval precision — whether the correct chunk appears in the top-k.
 
 ---
 
-## 🙏 **Acknowledgments**
+## 📦 A note on dependencies
 
-- **RAG Architecture**: Inspired by Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" (2020)
-- **Ollama**: For making local LLMs accessible
-- **Scikit-learn**: For TF-IDF implementation
-- **React**: For modern UI framework
-- **Flask**: For simple, powerful backend
+`requirements.txt` includes some packages beyond what the committed backend runs at default settings — notably `openai`, `chromadb`, and `tiktoken`. These are **retained from the project's iterative development**: the OpenAI/Claude providers and a ChromaDB vector-store experiment were real steps along the way. They're kept so those paths remain reproducible and so the provider/retriever can be switched back without hunting down versions. The default runtime path uses **Ollama + scikit-learn TF-IDF**.
 
 ---
 
-## 📞 **Contact**
+## 📈 Future Enhancements
 
-**Your Name** - [gunjan2002khatri@gmail.com](gunjan2002khatri@gmail.com)
+- Semantic embeddings (sentence-transformers) + vector store (ChromaDB) as the KB grows
+- Enable the full manual set from `backup_optional/`
+- A quantitative RAG evaluation harness (see "On answer accuracy")
+- Response caching, authentication, rate limiting
+- Real SCADA / sensor integration in place of synthetic data
+- Multi-turbine / farm-level view
 
-**Project Link**: [GITHUB](https://github.com/GunjanKhatrii/TurboBot)
+---
+
+## 🙏 Acknowledgments
+
+- **RAG concept:** Lewis et al., *"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"* (2020)
+- **Ollama** for accessible local LLMs · **scikit-learn** for TF-IDF · **React**, **Vite**, **shadcn/ui**, **Recharts** · **Flask**
+
+---
+
+## 📞 Contact
+
+**Gunjan Khatri** — gunjan2002khatri@gmail.com
+**Project:** https://github.com/GunjanKhatrii/TurboBot
 
 ---
 
 <div align="center">
 
-**⭐ Star this repo if you find it useful!**
-
-**Made with ❤️ for the wind energy industry**
+**⭐ Star this repo if you find it useful!** · Made for the wind energy industry 🌱
 
 </div>
-
----
-
